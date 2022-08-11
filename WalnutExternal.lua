@@ -5,7 +5,8 @@ IncludeDir["glm"] = "../vendor/glm"
 IncludeDir["SDL"] = "../vendor/SDL/include"
 
 Library = {}
-Library["SDL"] = "../vendor/SDL/"
+if os.ishost("linux") and os.istarget("linux") then
+   Library["SDL"] = "../vendor/SDL/build/libSDL2.la"
 
 group "Dependencies"
    include "vendor/imgui"
