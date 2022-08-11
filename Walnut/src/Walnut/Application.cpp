@@ -37,15 +37,31 @@ namespace Walnut {
 		// Initialize SDL
 		if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) != 0)
 		{
-			std::cerr << "Error: " << SDL_GetError() << std::endl;
+			std::cerr << "Error with SDL2 Init: " << SDL_GetError() << std::endl;
 			return;
 		}
 		
 		//m_WindowHandle = glfwCreateWindow(m_Specification.Width, m_Specification.Height, m_Specification.Name.c_str(), NULL, NULL);
 		m_WindowHandle = SDL_CreateWindow(m_Specification.Name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_Specification.Width, m_Specification.Height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+		
+		if (m_WindowHandle == NULL)
+		{
+			std::cerr << "Error Creating Window: " << SDL_GetError() << std::endl;
+			return;
+		}
 
+		if(m_Specification.IconSurface)
+		{
+			SDL_SetWindowIcon(m_WindowHandle, m_Specification.IconSurface);
+		}
 		// Setup SDL renderer
 		g_Renderer = SDL_CreateRenderer(m_WindowHandle, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		
+		if (g_Renderer == NULL)
+		{
+			std::cerr << "Error Creating Renderer: " << SDL_GetError() << std::endl;
+			return;
+		}
 		//TODO: Hi-DPI support
 
 		// Setup Dear ImGui context
