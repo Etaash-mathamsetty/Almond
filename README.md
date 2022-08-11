@@ -8,7 +8,6 @@ You will have to contribute Windows and Mac support yourself!
 ### 3rd party libaries
 - [Dear ImGui](https://github.com/ocornut/imgui)
 - [SDL2](https://github.com/libsdl-org/SDL)
-- [stb_image](https://github.com/nothings/stb)
 - [GLM](https://github.com/g-truc/glm) (included for convenience)
 
 ### Additional
