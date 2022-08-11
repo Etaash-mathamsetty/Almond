@@ -9,6 +9,9 @@ You will have to contribute Mac support yourself! (I will deal with Windows for 
 ![image](https://user-images.githubusercontent.com/45927311/184246207-2bc52659-ca45-4c38-99a8-d6b46b18620d.png)
 
 
+TODO:
+- Windows Support
+
 Why I did this:  
 - Walnut didn't work on Linux and MacOS  
 - Walnut wouldn't work well on older hardware that doesn't support Vulkan  
