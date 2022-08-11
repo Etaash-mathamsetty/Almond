@@ -10,10 +10,10 @@ if os.ishost("linux") and os.istarget("linux") then
 end
 
 group "Dependencies"
-   include "vendor/imgui"
-   -- include "vendor/SDL2"
+      include "vendor/imgui"
+      -- include "vendor/SDL"
 group ""
 
 group "Core"
-include "Walnut"
+include "Almond"
 group ""

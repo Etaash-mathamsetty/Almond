@@ -1,5 +1,5 @@
-project "Walnut"
-   kind "StaticLib"
+project "AlmondApp"
+   kind "ConsoleApp"
    language "C++"
    cppdialect "C++17"
    targetdir "bin/%{cfg.buildcfg}"
@@ -10,20 +10,28 @@ project "Walnut"
    includedirs
    {
       "../vendor/imgui",
-      "../vendor/stb_image",
+      "../vendor/SDL/include",
 
-      "%{IncludeDir.SDL}",
+      "../Almond/src",
+
       "%{IncludeDir.glm}",
    }
 
-   links
-   {
-       "ImGui",
+    links
+    {
+        "Almond"
+    }
 
-       "%{Library.SDL}",
-   }
+     if string.find(_ACTION, "gmake") then
+       -- Premake5 is about to generate gmake or gmake2 build Makefiles, and
+       -- Makefile support is still new and it does not generate "links" for
+       -- the dependencies needed by Walnut. Add the Linux libs in this case:
+       if os.istarget("linux") then
+          links { "imgui", "SDL2" }
+       end
+    end
 
-   targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+   targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
    objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
 
    filter "system:windows"
@@ -42,6 +50,7 @@ project "Walnut"
       symbols "On"
 
    filter "configurations:Dist"
+      kind "WindowedApp"
       defines { "WL_DIST" }
       runtime "Release"
       optimize "On"

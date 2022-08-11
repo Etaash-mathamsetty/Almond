@@ -15,7 +15,7 @@ namespace Walnut {
 
 	struct ApplicationSpecification
 	{
-		std::string Name = "Walnut App";
+		std::string Name = "Almond App";
 		SDL_Surface* IconSurface = nullptr;
 		uint32_t Width = 1600;
 		uint32_t Height = 900;
