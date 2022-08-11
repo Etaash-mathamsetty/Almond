@@ -5,8 +5,7 @@ Almond is a simple application framework built with Dear ImGui and designed to b
 Currently functional (viewports enable not working (upstream bug))  
 You will have to contribute Mac support yourself! (I will deal with Windows for now)  
 
-![image](https://user-images.githubusercontent.com/45927311/184246104-f6565e28-1bc7-4f04-853b-a7e020e4a77f.png)
-
+![image](https://user-images.githubusercontent.com/45927311/184246207-2bc52659-ca45-4c38-99a8-d6b46b18620d.png)
 
 
 Why I did this:  
