@@ -17,6 +17,7 @@ Why I did this:
 - Walnut wouldn't work well on older hardware that doesn't support Vulkan  
 - MacOS doesn't even support Vulkan  
 - SDL2 is plain better compared to GLFW  
+- Almonds are better than Walnuts
 
 ### 3rd party libaries
 - [Dear ImGui](https://github.com/ocornut/imgui)
@@ -26,4 +27,4 @@ Why I did this:
 ### Additional
 - Almond uses the [Roboto](https://fonts.google.com/specimen/Roboto) font ([Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0))
 
-BTW almonds are better than walnuts
+
