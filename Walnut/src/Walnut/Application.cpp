@@ -45,7 +45,7 @@ namespace Walnut {
 		m_WindowHandle = SDL_CreateWindow(m_Specification.Name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_Specification.Width, m_Specification.Height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
 
 		// Setup SDL renderer
-		g_Renderer = SDL_CreateRenderer(m_WindowHandle, -1, SDL_RENDERER_ACCELERATED);
+		g_Renderer = SDL_CreateRenderer(m_WindowHandle, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		//TODO: Hi-DPI support
 
 		// Setup Dear ImGui context
@@ -62,6 +62,9 @@ namespace Walnut {
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
 		//ImGui::StyleColorsClassic();
+
+		ImGui_ImplSDL2_InitForSDLRenderer(m_WindowHandle, g_Renderer);
+		ImGui_ImplSDLRenderer_Init(g_Renderer);
 
 		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 		ImGuiStyle& style = ImGui::GetStyle();
@@ -115,27 +118,13 @@ namespace Walnut {
 
 		m_LayerStack.clear();
 
-		// Cleanup
-		VkResult err = vkDeviceWaitIdle(g_Device);
-		check_vk_result(err);
-
-		// Free resources in queue
-		for (auto& queue : s_ResourceFreeQueue)
-		{
-			for (auto& func : queue)
-				func();
-		}
-		s_ResourceFreeQueue.clear();
-
-		ImGui_ImplVulkan_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
+		ImGui_ImplSDLRenderer_Shutdown();
+		ImGui_ImplSDL2_Shutdown();
 		ImGui::DestroyContext();
 
-		CleanupVulkanWindow();
-		CleanupVulkan();
-
-		glfwDestroyWindow(m_WindowHandle);
-		glfwTerminate();
+		SDL_DestroyRenderer(g_Renderer);
+		SDL_DestroyWindow(m_WindowHandle);
+		SDL_Quit();
 
 		g_ApplicationRunning = false;
 	}
@@ -149,17 +138,26 @@ namespace Walnut {
 		ImGuiIO& io = ImGui::GetIO();
 
 		// Main loop
-		while (!glfwWindowShouldClose(m_WindowHandle) && m_Running)
+		while (m_Running)
 		{
 			// Poll and handle events (inputs, window resize, etc.)
 			// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
 			// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
 			// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
 			// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-			glfwPollEvents();
+			//glfwPollEvents();
+			SDL_Event event;
+			while (SDL_PollEvent(&event))
+			{
+				ImGui_ImplSDL2_ProcessEvent(&event);
+				if (event.type == SDL_QUIT)
+				{
+					m_Running = false;
+				}
+			}
 
 			// Resize swap chain?
-			if (g_SwapChainRebuild)
+			/*if (g_SwapChainRebuild)
 			{
 				int width, height;
 				glfwGetFramebufferSize(m_WindowHandle, &width, &height);
@@ -175,11 +173,13 @@ namespace Walnut {
 
 					g_SwapChainRebuild = false;
 				}
-			}
+			}*/
 
 			// Start the Dear ImGui frame
-			ImGui_ImplVulkan_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
+			SDL_SetRenderDrawColor(g_Renderer, 0, 0, 0, 0);
+			SDL_RenderClear(g_Renderer);
+			ImGui_ImplSDLRenderer_NewFrame();
+			ImGui_ImplSDL2_NewFrame();
 			ImGui::NewFrame();
 
 			{
@@ -241,14 +241,8 @@ namespace Walnut {
 
 			// Rendering
 			ImGui::Render();
-			ImDrawData* main_draw_data = ImGui::GetDrawData();
-			const bool main_is_minimized = (main_draw_data->DisplaySize.x <= 0.0f || main_draw_data->DisplaySize.y <= 0.0f);
-			wd->ClearValue.color.float32[0] = clear_color.x * clear_color.w;
-			wd->ClearValue.color.float32[1] = clear_color.y * clear_color.w;
-			wd->ClearValue.color.float32[2] = clear_color.z * clear_color.w;
-			wd->ClearValue.color.float32[3] = clear_color.w;
-			if (!main_is_minimized)
-				FrameRender(wd, main_draw_data);
+			ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
+			SDL_RenderPresent(g_Renderer);
 
 			// Update and Render additional Platform Windows
 			if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -258,8 +252,7 @@ namespace Walnut {
 			}
 
 			// Present Main Platform Window
-			if (!main_is_minimized)
-				FramePresent(wd);
+			SDL_RenderPresent(g_Renderer);
 		}
 
 	}
@@ -272,65 +265,6 @@ namespace Walnut {
 	SDL_Renderer* Application::GetRenderer()
 	{
 		return g_Renderer;
-	}
-
-	VkCommandBuffer Application::GetCommandBuffer(bool begin)
-	{
-		ImGui_ImplVulkanH_Window* wd = &g_MainWindowData;
-
-		// Use any command queue
-		VkCommandPool command_pool = wd->Frames[wd->FrameIndex].CommandPool;
-
-		VkCommandBufferAllocateInfo cmdBufAllocateInfo = {};
-		cmdBufAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-		cmdBufAllocateInfo.commandPool = command_pool;
-		cmdBufAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-		cmdBufAllocateInfo.commandBufferCount = 1;
-
-		VkCommandBuffer& command_buffer = s_AllocatedCommandBuffers[wd->FrameIndex].emplace_back();
-		auto err = vkAllocateCommandBuffers(g_Device, &cmdBufAllocateInfo, &command_buffer);
-
-		VkCommandBufferBeginInfo begin_info = {};
-		begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-		begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-		err = vkBeginCommandBuffer(command_buffer, &begin_info);
-		check_vk_result(err);
-
-		return command_buffer;
-	}
-
-	void Application::FlushCommandBuffer(VkCommandBuffer commandBuffer)
-	{
-		const uint64_t DEFAULT_FENCE_TIMEOUT = 100000000000;
-
-		VkSubmitInfo end_info = {};
-		end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-		end_info.commandBufferCount = 1;
-		end_info.pCommandBuffers = &commandBuffer;
-		auto err = vkEndCommandBuffer(commandBuffer);
-		check_vk_result(err);
-
-		// Create fence to ensure that the command buffer has finished executing
-		VkFenceCreateInfo fenceCreateInfo = {};
-		fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-		fenceCreateInfo.flags = 0;
-		VkFence fence;
-		err = vkCreateFence(g_Device, &fenceCreateInfo, nullptr, &fence);
-		check_vk_result(err);
-
-		err = vkQueueSubmit(g_Queue, 1, &end_info, fence);
-		check_vk_result(err);
-
-		err = vkWaitForFences(g_Device, 1, &fence, VK_TRUE, DEFAULT_FENCE_TIMEOUT);
-		check_vk_result(err);
-
-		vkDestroyFence(g_Device, fence, nullptr);
-	}
-
-
-	void Application::SubmitResourceFree(std::function<void()>&& func)
-	{
-		s_ResourceFreeQueue[s_CurrentFrameIndex].emplace_back(func);
 	}
 
 }
