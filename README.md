@@ -2,7 +2,7 @@
 
 Almond is a simple application framework built with Dear ImGui and designed to be used with SDL Renderer - basically this means you can seemlessly blend real-time platform agnostic rendering with a great UI library to build desktop applications.
 
-Currently non-functional  
+Currently functional (viewports enable not working)  
 You will have to contribute Mac support yourself! (I will deal with Windows for now)  
 
 Why I did this:  
