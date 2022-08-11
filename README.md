@@ -25,3 +25,5 @@ Why I did this:
 
 ### Additional
 - Almond uses the [Roboto](https://fonts.google.com/specimen/Roboto) font ([Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0))
+
+BTW almonds are better than walnuts
