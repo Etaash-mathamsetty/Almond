@@ -5,6 +5,9 @@ Almond is a simple application framework built with Dear ImGui and designed to b
 Currently functional (viewports enable not working (upstream bug))  
 You will have to contribute Mac support yourself! (I will deal with Windows for now)  
 
+![image](https://user-images.githubusercontent.com/45927311/184243814-e296e94f-cdaa-427b-9323-62cd68530b16.png)
+
+
 Why I did this:  
 - Walnut didn't work on Linux and MacOS  
 - Walnut wouldn't work well on older hardware that doesn't support Vulkan  
