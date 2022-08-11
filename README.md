@@ -5,6 +5,12 @@ Almond is a simple application framework built with Dear ImGui and designed to b
 Currently non-functional  
 You will have to contribute Windows and Mac support yourself!
 
+Why I did this:  
+- Walnut didn't work on Linux and MacOS  
+- Walnut wouldn't work well on older hardware that doesn't support Vulkan  
+- MacOS doesn't even support Vulkan  
+- SDL2 is plain better compared to GLFW  
+
 ### 3rd party libaries
 - [Dear ImGui](https://github.com/ocornut/imgui)
 - [SDL2](https://github.com/libsdl-org/SDL)
