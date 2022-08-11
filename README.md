@@ -3,16 +3,21 @@
 Almond is a simple application framework built with Dear ImGui and designed to be used with SDL Renderer - basically this means you can seemlessly blend real-time platform agnostic rendering with a great UI library to build desktop applications.
 
 Currently functional (viewports enable not working (upstream bug))  
+You will have to compile SDL2 before you run `premake5 gmake2`  
 You will have to contribute Mac support yourself! (I will deal with Windows for now)  
 
-![image](https://user-images.githubusercontent.com/45927311/184243814-e296e94f-cdaa-427b-9323-62cd68530b16.png)
+![image](https://user-images.githubusercontent.com/45927311/184246207-2bc52659-ca45-4c38-99a8-d6b46b18620d.png)
 
+
+TODO:
+- Windows Support
 
 Why I did this:  
 - Walnut didn't work on Linux and MacOS  
 - Walnut wouldn't work well on older hardware that doesn't support Vulkan  
 - MacOS doesn't even support Vulkan  
 - SDL2 is plain better compared to GLFW  
+- Almonds are better than Walnuts
 
 ### 3rd party libaries
 - [Dear ImGui](https://github.com/ocornut/imgui)
@@ -21,3 +26,5 @@ Why I did this:
 
 ### Additional
 - Almond uses the [Roboto](https://fonts.google.com/specimen/Roboto) font ([Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0))
+
+
