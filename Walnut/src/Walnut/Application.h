@@ -8,11 +8,8 @@
 #include <functional>
 
 #include "imgui.h"
-#include "vulkan/vulkan.h"
+#include <SDL.h>
 
-void check_vk_result(VkResult err);
-
-struct GLFWwindow;
 
 namespace Walnut {
 
@@ -43,6 +40,7 @@ namespace Walnut {
 
 		void Close();
 
+		/*
 		static VkInstance GetInstance();
 		static VkPhysicalDevice GetPhysicalDevice();
 		static VkDevice GetDevice();
@@ -51,12 +49,16 @@ namespace Walnut {
 		static void FlushCommandBuffer(VkCommandBuffer commandBuffer);
 
 		static void SubmitResourceFree(std::function<void()>&& func);
+		*/
+
+		static SDL_Renderer* GetRenderer();
+
 	private:
 		void Init();
 		void Shutdown();
-	private:
+
 		ApplicationSpecification m_Specification;
-		GLFWwindow* m_WindowHandle = nullptr;
+		SDL_Window* m_WindowHandle = nullptr;
 		bool m_Running = false;
 
 		std::vector<std::shared_ptr<Layer>> m_LayerStack;
