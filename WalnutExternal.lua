@@ -1,20 +1,15 @@
 -- WalnutExternal.lua
 
-VULKAN_SDK = os.getenv("VULKAN_SDK")
-
 IncludeDir = {}
-IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 IncludeDir["glm"] = "../vendor/glm"
-
-LibraryDir = {}
-LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
+IncludeDir["SDL"] = "../vendor/SDL/include"
 
 Library = {}
-Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
+Library["SDL"] = "../vendor/SDL/"
 
 group "Dependencies"
    include "vendor/imgui"
-   include "vendor/glfw"
+   include "vendor/SDL"
 group ""
 
 group "Core"

@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef WL_PLATFORM_WINDOWS
+#ifdef WL_PLATFORM_WINDOWS || WL_PLATFORM_LINUX
 
 extern Walnut::Application* Walnut::CreateApplication(int argc, char** argv);
 bool g_ApplicationRunning = true;
