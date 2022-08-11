@@ -1,7 +1,7 @@
-#include "Walnut/Application.h"
-#include "Walnut/EntryPoint.h"
+#include "Almond/Application.h"
+#include "Almond/EntryPoint.h"
 
-class ExampleLayer : public Walnut::Layer
+class ExampleLayer : public Almond::Layer
 {
 public:
 	virtual void OnUIRender() override
@@ -14,12 +14,12 @@ public:
 	}
 };
 
-Walnut::Application* Walnut::CreateApplication(int argc, char** argv)
+Almond::Application* Almond::CreateApplication(int argc, char** argv)
 {
-	Walnut::ApplicationSpecification spec;
+	Almond::ApplicationSpecification spec;
 	spec.Name = "Almond Example";
 
-	Walnut::Application* app = new Walnut::Application(spec);
+	Almond::Application* app = new Almond::Application(spec);
 	app->PushLayer<ExampleLayer>();
 	app->SetMenubarCallback([app]()
 	{

@@ -25,7 +25,7 @@ project "AlmondApp"
      if string.find(_ACTION, "gmake") then
        -- Premake5 is about to generate gmake or gmake2 build Makefiles, and
        -- Makefile support is still new and it does not generate "links" for
-       -- the dependencies needed by Walnut. Add the Linux libs in this case:
+       -- the dependencies needed by Almond. Add the Linux libs in this case:
        if os.istarget("linux") then
           links { "imgui", "SDL2" }
        end

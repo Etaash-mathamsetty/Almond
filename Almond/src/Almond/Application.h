@@ -11,7 +11,7 @@
 #include <SDL.h>
 
 
-namespace Walnut {
+namespace Almond {
 
 	struct ApplicationSpecification
 	{

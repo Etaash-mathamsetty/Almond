@@ -4,7 +4,7 @@
 
 #include <glm/glm.hpp>
 
-namespace Walnut {
+namespace Almond {
 
 	class Random
 	{

@@ -1,4 +1,4 @@
--- WalnutExternal.lua
+-- AlmondExternal.lua
 
 IncludeDir = {}
 IncludeDir["glm"] = "../vendor/glm"

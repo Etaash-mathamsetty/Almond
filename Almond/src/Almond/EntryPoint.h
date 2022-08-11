@@ -2,16 +2,16 @@
 
 //#ifdef WL_PLATFORM_WINDOWS || WL_PLATFORM_LINUX
 
-extern Walnut::Application* Walnut::CreateApplication(int argc, char** argv);
+extern Almond::Application* Almond::CreateApplication(int argc, char** argv);
 bool g_ApplicationRunning = true;
 
-namespace Walnut {
+namespace Almond {
 
 	int Main(int argc, char** argv)
 	{
 		while (g_ApplicationRunning)
 		{
-			Walnut::Application* app = Walnut::CreateApplication(argc, argv);
+			Almond::Application* app = Almond::CreateApplication(argc, argv);
 			app->Run();
 			delete app;
 		}
@@ -27,14 +27,14 @@ namespace Walnut {
 
 int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, PSTR cmdline, int cmdshow)
 {
-	return Walnut::Main(__argc, __argv);
+	return Almond::Main(__argc, __argv);
 }
 
 #else
 
 int main(int argc, char** argv)
 {
-	return Walnut::Main(argc, argv);
+	return Almond::Main(argc, argv);
 }
 
 #endif // WL_DIST

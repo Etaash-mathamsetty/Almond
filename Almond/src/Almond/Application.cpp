@@ -19,7 +19,7 @@
 extern bool g_ApplicationRunning;
 static SDL_Renderer* g_Renderer = NULL;
 
-namespace Walnut {
+namespace Almond {
 
 	Application::Application(const ApplicationSpecification& specification)
 		: m_Specification(specification)
