@@ -10,19 +10,17 @@ project "Walnut"
    includedirs
    {
       "../vendor/imgui",
-      "../vendor/glfw/include",
       "../vendor/stb_image",
 
-      "%{IncludeDir.VulkanSDK}",
+      "%{IncludeDir.SDL}",
       "%{IncludeDir.glm}",
    }
 
    links
    {
        "ImGui",
-       "GLFW",
 
-       "%{Library.Vulkan}",
+       "%{Library.SDL}",
    }
 
    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
