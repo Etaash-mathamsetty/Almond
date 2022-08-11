@@ -2,15 +2,9 @@
 	path = vendor/imgui
 	url = https://github.com/TheCherno/imgui
 	branch = docking
-[submodule "vendor/glfw"]
-	path = vendor/glfw
-	url = https://github.com/thecherno/glfw
 [submodule "vendor/glm"]
 	path = vendor/glm
 	url = https://github.com/g-truc/glm
-[submodule "vendor/GLFW"]
-	path = vendor/GLFW
-	url = https://github.com/TheCherno/GLFW
 [submodule "vendor/SDL"]
 	path = vendor/SDL
 	url = https://github.com/libsdl-org/SDL.git
