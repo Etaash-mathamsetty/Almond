@@ -211,7 +211,7 @@ namespace Walnut {
 			// Rendering
 			ImGui::Render();
 			ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
-			SDL_RenderPresent(g_Renderer);
+			//SDL_RenderPresent(g_Renderer);
 
 			// Update and Render additional Platform Windows
 			if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
