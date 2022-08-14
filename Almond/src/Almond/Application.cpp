@@ -1,7 +1,7 @@
 #include "Application.h"
 
 //
-// Adapted from Dear ImGui Vulkan example
+// Adapted from Walnut
 //
 
 #include "backends/imgui_impl_sdl.h"
